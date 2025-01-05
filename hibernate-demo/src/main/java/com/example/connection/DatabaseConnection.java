@@ -12,7 +12,7 @@ import java.util.Properties;
 public class DatabaseConnection {
     private static SessionFactory sessionFactory;
 
-    public static Session getSession(){
+    public static Session createSession(){
         Properties properties = new Properties();
 
         try(FileInputStream inputStream = new FileInputStream(new File("src/main/resources/db.properties"))) {

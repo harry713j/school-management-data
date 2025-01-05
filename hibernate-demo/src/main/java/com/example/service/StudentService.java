@@ -1,15 +1,15 @@
 package com.example.service;
 
 import com.example.model.Student;
-import com.example.repo.StudentRepository;
+import com.example.repo.ModelRepository;
 
 import java.util.List;
 
 public class StudentService {
-    private final StudentRepository repository;
+    private final ModelRepository<Student> repository;
 
     public StudentService(){
-        this.repository = new StudentRepository();
+        this.repository = new ModelRepository<>(Student.class);
     }
 
     public void registerStudent(Student student){

@@ -15,5 +15,8 @@
 
     <!--   Mapping of the Entity classes-->
         <mapping class="com.example.model.Student" />
+        <mapping class="com.example.model.Teacher" />
+        <mapping class="com.example.model.Subject" />
+        <mapping class="com.example.model.Course" />
     </session-factory>
 </hibernate-configuration>

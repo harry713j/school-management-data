@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Entity
-@Table(name = "students")
+@Table(name = "students", uniqueConstraints = @UniqueConstraint(columnNames = {"phone_number"}))
 public class Student {
 
     @Id
@@ -21,6 +22,13 @@ public class Student {
     private LocalDate dateOfBirth;
     @Column(name = "phone_number")
     private String phoneNumber;
+    @ManyToMany
+    @JoinTable(
+            name = "student_courses",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
 
     @Transient
     public int getAge(){
@@ -32,20 +40,21 @@ public class Student {
 
     public Student(){}
 
-    public Student(Long studentId, String firstName, String lastName, LocalDate dateOfBirth, String phoneNumber) {
+    public Student(Long studentId, String firstName, String lastName, LocalDate dateOfBirth, String phoneNumber, List<Course> courses) {
         this.studentId = studentId;
-        this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.lastName = lastName;
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.courses = courses;
     }
 
-    public Student( String firstName, String lastName, LocalDate dateOfBirth, String phoneNumber) {
-
-        this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.lastName = lastName;
+    public Student(String firstName, String lastName, LocalDate dateOfBirth, String phoneNumber, List<Course> courses) {
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.courses = courses;
     }
 
     public Long getStudentId() {
@@ -56,20 +65,12 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -80,12 +81,28 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     @Override
@@ -96,6 +113,7 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", courses=" + courses +
                 '}';
     }
 }
